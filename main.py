@@ -35,7 +35,7 @@ def check_all_messages(message):
     response("Hello!", ['hello', 'hi', 'yo'], single_response=True)
     response("I'm doing fine, and you?", ['how', 'are', 'you'], required_words=['how'])
     response("All done now, bye bye!", ['done', 'close'], required_words=['done', 'close'])
-
+    #long responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
     response(long.R_EATING, ['what', 'you', 'eat'], required_words=['you', 'eat'])
 
