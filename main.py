@@ -31,10 +31,10 @@ def check_all_messages(message):
         nonlocal highest_prob_list
         highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
 
-    # responses = ---------------------------------------------- test out other bot responses
-    response("Hello!", ['hello', 'hi', 'yo'], single_response=True)
+    #short responses = ---------------------------------------------- test out other bot responses
+    response("Hello!", ['hello', 'hi'], single_response=True)
     response("I'm doing fine, and you?", ['how', 'are', 'you'], required_words=['how'])
-    response("All done now, bye bye!", ['done', 'close'], required_words=['done', 'close'])
+    response("All done now, bye bye!", ['we', 'are','done'], required_words=['done'])
     #long responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
     response(long.R_EATING, ['what', 'you', 'eat'], required_words=['you', 'eat'])
