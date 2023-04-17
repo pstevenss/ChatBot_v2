@@ -1,3 +1,4 @@
+import pygame as pg
 import re
 import long_responses as long
 
@@ -37,7 +38,7 @@ def check_all_messages(message):
     response("Have a good day! ", ['bye'], required_words=['bye'])
     #long responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_EATING, ['what', 'u', 'eat'], required_words=['u', 'eat'])
+    response(long.R_STARTGAME, ['start', 'the', 'game'], required_words=['play', 'game'])
     response(long.R_TASK, ['what', 'doing', ], required_words=['what', 'doing'])
 
 
@@ -46,13 +47,13 @@ def check_all_messages(message):
     return long.unknown() if highest_prob_list[best_match] < 1 else best_match
 
 
-# Used to get the response
+# used to get the response
 def get_response(user_input):
     split_message = re.split(r'\s+|[,;?!.-]\s*', user_input.lower())
     response = check_all_messages(split_message)
     return response
 
 
-# Testing the response system
+# testing the response system
 while True:
     print('Bot: ' + get_response(input('You: ')))
