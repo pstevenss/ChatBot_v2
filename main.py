@@ -1,4 +1,5 @@
-import pygame as pg
+import pygame
+import time
 import re
 import long_responses as long
 
