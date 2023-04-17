@@ -34,10 +34,12 @@ def check_all_messages(message):
     #short responses = ---------------------------------------------- test out other bot responses
     response("Hello!", ['hello', 'hi'], single_response=True)
     response("I'm doing fine, and you?", ['how', 'are', 'you'], required_words=['how'])
-    response("All done now, bye bye!", ['we', 'are','done'], required_words=['done'])
+    response("Have a good day! ", ['bye'], required_words=['bye'])
     #long responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_EATING, ['what', 'you', 'eat'], required_words=['you', 'eat'])
+    response(long.R_EATING, ['what', 'u', 'eat'], required_words=['u', 'eat'])
+    response(long.R_TASK, ['what', 'doing', ], required_words=['what', 'doing'])
+
 
     best_match = max(highest_prob_list, key=highest_prob_list.get)
 
