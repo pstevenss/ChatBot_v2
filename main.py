@@ -1,7 +1,7 @@
 import pygame
-import time
 import re
 import long_responses as long
+import testGame
 
 
 def message_probability(user_message, recon_words, single_response=False, required_words=[]):
@@ -33,14 +33,17 @@ def check_all_messages(message):
         nonlocal highest_prob_list
         highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
 
+
+
     #short responses = ---------------------------------------------- test out other bot responses
     response("Hello!", ['hello', 'hi'], single_response=True)
     response("I'm doing fine, and you?", ['how', 'are', 'you'], required_words=['how'])
     response("Have a good day! ", ['bye'], required_words=['bye'])
     #long responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_STARTGAME, ['start', 'the', 'game'], required_words=['play', 'game'])
     response(long.R_TASK, ['what', 'doing', ], required_words=['what', 'doing'])
+    response(long.R_STARTGAME, ['play', 'the', 'game'], required_words=['play', 'game'])
+    response(long.R_CONFIRM, ['yes', 'yea'], single_response=['yes', 'yea'])
 
 
     best_match = max(highest_prob_list, key=highest_prob_list.get)
@@ -56,5 +59,12 @@ def get_response(user_input):
 
 
 # testing the response system
-while True:
-    print('Bot: ' + get_response(input('You: ')))
+terminate_input = False
+while not terminate_input:
+    user_input = input('You: ')
+    if user_input.lower() == "yes" or user_input.lower() == "yea":
+        testGame.runningGame()
+        terminate_input = True
+    else:
+        response = get_response(user_input)
+        print('Bot: ' + response)
