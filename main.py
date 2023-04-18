@@ -1,7 +1,10 @@
 import pygame
+#import testGame
 import re
 import long_responses as long
-import testGame
+
+
+#import testGame
 
 
 def message_probability(user_message, recon_words, single_response=False, required_words=[]):
@@ -59,12 +62,6 @@ def get_response(user_input):
 
 
 # testing the response system
-terminate_input = False
-while not terminate_input:
-    user_input = input('You: ')
-    if user_input.lower() == "yes" or user_input.lower() == "yea":
-        testGame.runningGame()
-        terminate_input = True
-    else:
-        response = get_response(user_input)
-        print('Bot: ' + response)
+while True:
+    print('Bot: ' + get_response(input('You: ')))
+
