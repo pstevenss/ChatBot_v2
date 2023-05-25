@@ -73,7 +73,7 @@ def runningGame():
     sleep(1)
     print("1.")
 
-    # Pygame setup
+# pygame setup start --------------------
     pygame.init()
     window_width, window_height = 800, 600
     window = pygame.display.set_mode((window_width, window_height))
@@ -87,7 +87,7 @@ def runningGame():
         pygame.display.flip()
 
     pygame.quit()
-
+## pygame setup end --------------------
 
 while True:
     user_input, game_started = get_response(input('You: '))
