@@ -3,38 +3,46 @@ import pygame as pg
 pg.init()
 screen_width = 1000
 screen_height = 780
-sprite_width = 350
-sprite_height = 500
 screen = pg.display.set_mode((screen_width, screen_height))
 pg.display.set_caption("Bubble Buddies")
 
 #load sprite characters
-#mainPlayer = pg.image.load('sprite_Images/mainPlayerIdleFront.png')
 forestBg = pg.image.load('sprite_Images/forestBg.png')
 forestBg = pg.transform.scale(forestBg, (screen_width, screen_height))
 
-mainPlayerSide1 = pg.image.load('sprite_Images/MainPlayerSpriteIdle1.png')
-mainPlayerSide1 = pg.transform.scale(mainPlayerSide1, (sprite_width, sprite_height))
+sprite_sheet_image = pg.image.load('sprite_Images/characters.png').convert_alpha()
 
-mainPlayerSide2 = pg.image.load('sprite_Images/MainPlayerSpriteIdle2.png')
-mainPlayerSide2 = pg.transform.scale(mainPlayerSide2, (sprite_width, sprite_height))
+black = (0,0,0)
+def getImage(sheet, frame, width, height, scale, color):
+    image = pg.Surface((width,height)).convert_alpha()
+    image.blit(sheet, (0,0), ((frame * width),0, width,height))
+    image = pg.transform.scale(image, (width * scale, height * scale))
+    image.set_colorkey(color)
+    return image
 
-mainPlayerLeftWalk = pg.image.load('sprite_Images/MainPlayerSpriteWalkLeft.png')
-mainPlayerLeftWalk = pg.transform.scale(mainPlayerLeftWalk, (sprite_width, sprite_height))
+frame_0 = getImage(sprite_sheet_image, 0,  27, 27, 3, black)
+frame_1 = getImage(sprite_sheet_image, 1,  27, 27, 3, black)
+frame_2 = getImage(sprite_sheet_image, 2,  27, 27, 3, black)
+frame_3 = getImage(sprite_sheet_image, 3,  27, 27, 3, black)
 
-mainPlayerRightWalk = pg.image.load('sprite_Images/MainPlayerSpriteWalkRight.png')
-mainPlayerRightWalk = pg.transform.scale(mainPlayerRightWalk, (sprite_width, sprite_height))
+#create animation list
+animate_list = []
+animate_steps = 4
+
+#for x in range(animate_steps):
 
 
 running = True
 while running:
-    #screen.blit(mainPlayer, (100,100))
     screen.blit(forestBg, (0,0))
-    screen.blit(mainPlayerSide1, (25,350))
-    screen.blit(mainPlayerLeftWalk, (75,350))
-    screen.blit(mainPlayerSide2, (200,350))
-    screen.blit(mainPlayerRightWalk, (80,350))
-# fix the position with sprite blitting
+
+#show frame image
+    screen.blit(frame_0, (0,0))
+    screen.blit(frame_1, (500,0))
+    screen.blit(frame_2, (200,0))
+    screen.blit(frame_3, (300,0))
+
+
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -42,21 +50,5 @@ while running:
     pg.display.update()
     #
     screen.fill("white")
-    # pg.draw.circle(screen, "red", player_pos, 40)
-    #
-    # keys = pg.key.get_pressed()
-    # if keys[pg.K_w]:
-    #     player_pos.y -= 300 * dt
-    # if keys[pg.K_s]:
-    #     player_pos.y += 300 * dt
-    # if keys[pg.K_a]:
-    #     player_pos.x -= 300 * dt
-    # if keys[pg.K_d]:
-    #     player_pos.x += 300 * dt
-    #
-    # dt = clock.tick(60) / 1000
-    #
-    #
-    #
 pg.quit()
 ## pygame setup end --------------------
