@@ -11,7 +11,7 @@ x = 0
 y = 565
 width = 40
 height = 60
-pg.display.set_caption("Bubble Buddies")
+pg.display.set_caption("Enchanted Grove")
 
 
 # Load sprite images
@@ -32,6 +32,14 @@ adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventur
 # Create flipped versions of the sprites
 adventRunSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventRunSprites]
 
+adventJumpSprites = []
+
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-00.png'), (55, 42)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-01.png'), (55, 42)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-02.png'), (55, 42)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-03.png'), (55, 42)))
+
+adventJumpSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventJumpSprites]
 
 
 isJump = False
@@ -40,13 +48,27 @@ left = False
 right = False
 walkCount = 0
 
+##where the animation and player movement can be modified
+
 def redrawGameWindow():
-    global walkCount
+    global walkCount ,isJump
 
     # Blit the background image
     screen.blit(forestBg, (0, 0))
 
-    if left:
+    if isJump:  # Check if player is jumping
+        sprite_index = walkCount // 3
+        if sprite_index < len(adventJumpSprites):
+            if left:
+                screen.blit(adventJumpSpritesFlipped[sprite_index], (x, y))
+            else:
+                screen.blit(adventJumpSprites[sprite_index], (x, y))
+            walkCount += 1
+        else:
+            # Reset jump animation
+            walkCount = 0
+            isJump = False
+    elif left:
         sprite_index = walkCount // 3
         if sprite_index < len(adventRunSpritesFlipped):
             screen.blit(adventRunSpritesFlipped[sprite_index], (x, y))
@@ -69,9 +91,6 @@ def redrawGameWindow():
         walkCount = 0
 
     pg.display.update()
-
-
-
 
 
 ## main loops
