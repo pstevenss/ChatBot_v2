@@ -75,9 +75,9 @@ def runningGame():
 
 # pygame setup start --------------------
     pygame.init()
-    window_width, window_height = 800, 600
+    window_width, window_height = 1250, 1000
     window = pygame.display.set_mode((window_width, window_height))
-    pygame.display.set_caption("Conversation Window")
+    pygame.display.set_caption("Bubble Buddies")
 
     running = True
     while running:
