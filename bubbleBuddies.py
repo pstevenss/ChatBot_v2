@@ -8,6 +8,7 @@ pg.display.set_caption("Bubble Buddies")
 
 #load sprite characters
 #mainPlayer = pg.image.load('sprite_Images/mainPlayerIdleFront.png')
+forestBg = pg.image.load('sprite_Images/forestBg.png')
 mainPlayerSide1 = pg.image.load('sprite_Images/MainPlayerSpriteIdle1.png')
 mainPlayerSide2 = pg.image.load('sprite_Images/MainPlayerSpriteIdle2.png')
 mainPlayerLeftWalk = pg.image.load('sprite_Images/MainPlayerSpriteWalkLeft.png')
@@ -16,6 +17,7 @@ mainPlayerRightWalk = pg.image.load('sprite_Images/MainPlayerSpriteWalkRight.png
 running = True
 while running:
     #screen.blit(mainPlayer, (100,100))
+    screen.blit(forestBg, (0,0))
     screen.blit(mainPlayerSide1, (500, 500))
     screen.blit(mainPlayerLeftWalk, (400, 500))
     screen.blit(mainPlayerRightWalk, (200, 500))
