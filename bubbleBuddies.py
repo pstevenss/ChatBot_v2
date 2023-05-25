@@ -7,41 +7,90 @@ screen_height = 650
 screen = pg.display.set_mode((screen_width, screen_height))
 clock = pg.time.Clock()
 vel = 5
-x = 55
-y = 22
+x = 0
+y = 565
 width = 40
 height = 60
 pg.display.set_caption("Bubble Buddies")
 
-# Load sprite characters
+
+# Load sprite images
 forestBg = pg.image.load('sprite_Images/Background.png')
 forestBg = pg.transform.scale(forestBg, (screen_width, screen_height))
-
 adventIdle00 = pg.image.load('sprite_Images/adventurer-idle-00.png')
-adventIdle00 = pg.transform.scale(adventIdle00, (55, 42))
-adventIdle01 = pg.image.load('sprite_Images/adventurer-idle-01.png')
-adventIdle01 = pg.transform.scale(adventIdle01, (55, 42))
-adventIdle02 = pg.image.load('sprite_Images/adventurer-idle-02.png')
-adventIdle02 = pg.transform.scale(adventIdle02, (55, 42))
-adventIdle03 = pg.image.load('sprite_Images/adventurer-idle-03.png')
-adventIdle03 = pg.transform.scale(adventIdle03, (55, 42))
+
+adventRunSprites = []
+
+# Load and scale the original sprites
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-00.png'), (55, 42)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-01.png'), (55, 42)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-02.png'), (55, 42)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-03.png'), (55, 42)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-04.png'), (55, 42)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-05.png'), (55, 42)))
+
+# Create flipped versions of the sprites
+adventRunSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventRunSprites]
+
+
 
 isJump = False
 jumpCount = 5
+left = False
+right = False
+walkCount = 0
 
+def redrawGameWindow():
+    global walkCount
+
+    # Blit the background image
+    screen.blit(forestBg, (0, 0))
+
+    if left:
+        sprite_index = walkCount // 3
+        if sprite_index < len(adventRunSpritesFlipped):
+            screen.blit(adventRunSpritesFlipped[sprite_index], (x, y))
+        else:
+            walkCount = 0
+            sprite_index = walkCount // 3
+            screen.blit(adventRunSpritesFlipped[sprite_index], (x, y))
+        walkCount += 1
+    elif right:
+        sprite_index = walkCount // 3
+        if sprite_index < len(adventRunSprites):
+            screen.blit(adventRunSprites[sprite_index], (x, y))
+        else:
+            walkCount = 0
+            sprite_index = walkCount // 3
+            screen.blit(adventRunSprites[sprite_index], (x, y))
+        walkCount += 1
+    else:
+        screen.blit(adventIdle00, (x, y))  # Display idle image when not moving
+        walkCount = 0
+
+    pg.display.update()
+
+
+
+
+
+## main loops
 run = True
 
 while run:
-    pg.time.delay(50)
+    clock.tick(27)
 
     # Background sprite Forest - dark
-    screen.blit(forestBg, (0, 0))
+    #screen.blit(forestBg, (0, 0))
 
-    # Show sprite character images
-    screen.blit(adventIdle00, (0, 565))
-    screen.blit(adventIdle01, (25, 565))
-    screen.blit(adventIdle02, (50, 565))
-    screen.blit(adventIdle03, (75, 565))
+    # # Show sprite character images
+    # screen.blit(adventRun0, (0, 565))
+    # screen.blit(adventRun1, (25, 565))
+    # screen.blit(adventRun2, (50, 565))
+    # screen.blit(adventRun3, (75, 565))
+    # screen.blit(adventRun4, (100, 565))
+    # screen.blit(adventRun5, (125, 565))
+    #
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -51,19 +100,25 @@ while run:
 
     if keys[pg.K_LEFT] and x > vel:
         x -= vel
+        left = True
+        right = False
 
-    if keys[pg.K_RIGHT] and x < screen_width - vel - width:
+    elif keys[pg.K_RIGHT] and x < screen_width - vel - width:
         x += vel
+        left = False
+        right = True
 
-    if not isJump:
-        if keys[pg.K_UP] and y > vel:
-            y -= vel
+    else:
+        left = False
+        right = False
+        walkCount = 0
 
-        if keys[pg.K_DOWN] and y < screen_height - height - vel:
-            y += vel
-
+    if not (isJump):
         if keys[pg.K_SPACE]:
             isJump = True
+            left = False
+            right = False
+            walkCount = 0
     else:
         if jumpCount >= -5:
             y -= (jumpCount * abs(jumpCount)) * 0.5
@@ -72,8 +127,7 @@ while run:
             jumpCount = 5
             isJump = False
 
-    screen.fill((0, 0, 0))
-    pg.display.update()
+    redrawGameWindow()
 
 pg.quit()
 
