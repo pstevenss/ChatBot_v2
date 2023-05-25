@@ -1,11 +1,7 @@
-import pygame
-#import testGame
 import re
 import long_responses as long
-
-
-#import testGame
-
+from time import sleep
+import pygame
 
 def message_probability(user_message, recon_words, single_response=False, required_words=[]):
     message_certainty = 0
@@ -36,32 +32,64 @@ def check_all_messages(message):
         nonlocal highest_prob_list
         highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
 
-
-
-    #short responses = ---------------------------------------------- test out other bot responses
-    response("Hello!", ['hello', 'hi'], single_response=True)
+    # short responses
+    response("Hello!", ['hello', 'hey'], single_response=True)
     response("I'm doing fine, and you?", ['how', 'are', 'you'], required_words=['how'])
     response("Have a good day! ", ['bye'], required_words=['bye'])
-    #long responses
+
+    # long responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_TASK, ['what', 'doing', ], required_words=['what', 'doing'])
+    response(long.R_TASK, ['what', 'doing'], required_words=['what', 'doing'])
     response(long.R_STARTGAME, ['play', 'the', 'game'], required_words=['play', 'game'])
     response(long.R_CONFIRM, ['yes', 'yea'], single_response=['yes', 'yea'])
 
-
     best_match = max(highest_prob_list, key=highest_prob_list.get)
 
-    return long.unknown() if highest_prob_list[best_match] < 1 else best_match
+    if highest_prob_list[best_match] >= 50:
+        if best_match == long.R_CONFIRM:
+            runningGame()
+            return long.R_CONFIRM
+        else:
+            return best_match
+    else:
+        return long.unknown()
 
-
-# used to get the response
 def get_response(user_input):
     split_message = re.split(r'\s+|[,;?!.-]\s*', user_input.lower())
     response = check_all_messages(split_message)
-    return response
+    if response == long.R_CONFIRM:
+        return '', True
+    else:
+        return response, False
 
+def runningGame():
+    print(long.R_CONFIRM)
+    sleep(2)
+    print("Opening game in..")
+    sleep(3)
+    print("3...")
+    sleep(2)
+    print("2..")
+    sleep(1)
+    print("1.")
 
-# testing the response system
+    # Pygame setup
+    pygame.init()
+    window_width, window_height = 800, 600
+    window = pygame.display.set_mode((window_width, window_height))
+    pygame.display.set_caption("Conversation Window")
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        pygame.display.flip()
+
+    pygame.quit()
+
 while True:
-    print('Bot: ' + get_response(input('You: ')))
-
+    user_input, game_started = get_response(input('You: '))
+    print('Bot: ' + user_input)
+    if game_started:
+        break

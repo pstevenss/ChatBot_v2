@@ -1,24 +1,10 @@
 import pygame
-from time import sleep
 import long_responses as long
 
 # get simple pygame running for demo
 # pygame should open after X amount of seconds when user says they want to play
 
 # possible 3 game choices for user to choose from, for now 1 to get demo working
-
-def runningGame():
-    print(long.R_CONFIRM)
-    sleep(2)
-    print("Opening game in..")
-    sleep(3)
-    print("3...")
-    sleep(2)
-    print("2..")
-    sleep(1)
-    print("1.")
-
-runningGame()
 
 
 ## copied the code for demo purposes to have game open,to be changed
