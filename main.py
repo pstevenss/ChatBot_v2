@@ -88,6 +88,7 @@ def runningGame():
 
     pygame.quit()
 
+
 while True:
     user_input, game_started = get_response(input('You: '))
     print('Bot: ' + user_input)
