@@ -27,33 +27,33 @@ adventRunSprites = []
 
 # Load and scale sprites
 #Running sprites
-adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-00.png'), (55, 42)))
-adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-01.png'), (55, 42)))
-adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-02.png'), (55, 42)))
-adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-03.png'), (55, 42)))
-adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-04.png'), (55, 42)))
-adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-05.png'), (55, 42)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-00.png'), (55, 40)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-01.png'), (55, 40)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-02.png'), (55, 40)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-03.png'), (55, 40)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-04.png'), (55, 40)))
+adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-05.png'), (55, 40)))
 
 # Create flipped versions of the sprites
 adventRunSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventRunSprites]
 #Jumping Sprites
 adventJumpSprites = []
 
-adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-00.png'), (55, 42)))
-adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-01.png'), (55, 42)))
-adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-02.png'), (55, 42)))
-adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-03.png'), (55, 42)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-00.png'), (55, 39)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-01.png'), (55, 39)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-02.png'), (55, 39)))
+adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-03.png'), (55, 39)))
 
 adventJumpSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventJumpSprites]
 #Crouching Sprites
-
-adventCrouchSprites = []
-adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-00.png'), (55, 42)))
-adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-01.png'), (55, 42)))
-adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-02.png'), (55, 42)))
-adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-03.png'), (55, 42)))
-
-adventCrouchSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventCrouchSprites]
+#
+# adventCrouchSprites = []
+# adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-00.png'), (55, 42)))
+# adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-01.png'), (55, 42)))
+# adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-02.png'), (55, 42)))
+# adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-03.png'), (55, 42)))
+#
+# adventCrouchSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventCrouchSprites]
 
 # SpriteSheetAnimation usage
 sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
@@ -80,7 +80,7 @@ def redrawGameWindow():
     # Update the enemy animation
     enemy_animation.update(dt)
     enemy_current_frame = enemy_animation.get_current_frame()
-    screen.blit(enemy_current_frame, (55, 55))
+    screen.blit(enemy_current_frame, (545, 565))
 
     if isJump:  # Check if player is jumping
         sprite_index = walkCount // 3
