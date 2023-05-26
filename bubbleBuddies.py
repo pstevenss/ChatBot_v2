@@ -1,4 +1,5 @@
 import pygame as pg
+from spriteSheet import SpriteSheetAnimation
 
 # pygame setup start --------------------
 pg.init()
@@ -18,6 +19,9 @@ pg.display.set_caption("Enchanted Grove")
 forestBg = pg.image.load('sprite_Images/Background.png')
 forestBg = pg.transform.scale(forestBg, (screen_width, screen_height))
 adventIdle00 = pg.image.load('sprite_Images/adventurer-idle-00.png')
+enemy_sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
+enemy_animation = SpriteSheetAnimation(enemy_sprite_sheet, 32, 32, 100)
+
 
 adventRunSprites = []
 
@@ -51,6 +55,14 @@ adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adven
 
 adventCrouchSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventCrouchSprites]
 
+# SpriteSheetAnimation usage
+sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
+frame_width = 32
+frame_height = 32
+frame_duration = 100
+animation = SpriteSheetAnimation(sprite_sheet, frame_width, frame_height, frame_duration)
+
+
 isJump = False
 jumpCount = 5
 left = False
@@ -64,6 +76,11 @@ def redrawGameWindow():
 
     # Blit the background image
     screen.blit(forestBg, (0, 0))
+
+    # Update the enemy animation
+    enemy_animation.update(dt)
+    enemy_current_frame = enemy_animation.get_current_frame()
+    screen.blit(enemy_current_frame, (55, 55))
 
     if isJump:  # Check if player is jumping
         sprite_index = walkCount // 3
@@ -106,11 +123,14 @@ def redrawGameWindow():
 run = True
 
 while run:
-    clock.tick(27)
+    dt = clock.tick(27)  # Limit the frame rate to 60 FPS
+    animation.update(dt)
+    current_frame = animation.get_current_frame()
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
             run = False
+
 
     keys = pg.key.get_pressed()
 
@@ -143,9 +163,6 @@ while run:
             jumpCount = 5
             isJump = False
 
-
     redrawGameWindow()
-
-pg.quit()
 
 pg.quit()

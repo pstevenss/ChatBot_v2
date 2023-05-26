@@ -1,5 +1,3 @@
-import pygame as pg
-
 class SpriteSheetAnimation:
     def __init__(self, sprite_sheet, frame_width, frame_height, frame_duration):
         self.sprite_sheet = sprite_sheet
@@ -14,9 +12,15 @@ class SpriteSheetAnimation:
     def load_frames(self):
         frames = []
         sheet_width, sheet_height = self.sprite_sheet.get_size()
+        if self.frame_width > sheet_width or self.frame_height > sheet_height:
+            raise ValueError("Frame dimensions exceed sprite sheet size")
         for y in range(0, sheet_height, self.frame_height):
+            if y + self.frame_height > sheet_height:
+                break  # Skip incomplete row at the bottom of the sprite sheet
             for x in range(0, sheet_width, self.frame_width):
-                frame = self.sprite_sheet.subsurface(pg.Rect(x, y, self.frame_width, self.frame_height))
+                if x + self.frame_width > sheet_width:
+                    break  # Skip incomplete frame at the end of the row
+                frame = self.sprite_sheet.subsurface((x, y, self.frame_width, self.frame_height))
                 frames.append(frame)
         return frames
 
@@ -28,37 +32,3 @@ class SpriteSheetAnimation:
 
     def get_current_frame(self):
         return self.frames[self.current_frame]
-
-# Example usage
-pg.init()
-screen = pg.display.set_mode((400, 400))
-clock = pg.time.Clock()
-
-# Load sprite sheet
-sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
-
-# Define frame dimensions and duration
-frame_width = 55
-frame_height = 42
-frame_duration = 100  # Time in milliseconds between frame updates
-
-# Create sprite sheet animation
-animation = SpriteSheetAnimation(sprite_sheet, frame_width, frame_height, frame_duration)
-
-running = True
-while running:
-    dt = clock.tick(60)  # Limit the frame rate to 60 FPS
-
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            running = False
-
-    animation.update(dt)
-
-    screen.fill((255, 255, 255))  # Clear the screen
-    current_frame = animation.get_current_frame()
-    screen.blit(current_frame, (100, 100))  # Blit the current frame onto the screen
-
-    pg.display.flip()  # Update the display
-
-pg.quit()
