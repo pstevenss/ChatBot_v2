@@ -21,7 +21,8 @@ adventIdle00 = pg.image.load('sprite_Images/adventurer-idle-00.png')
 
 adventRunSprites = []
 
-# Load and scale the original sprites
+# Load and scale sprites
+#Running sprites
 adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-00.png'), (55, 42)))
 adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-01.png'), (55, 42)))
 adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-02.png'), (55, 42)))
@@ -31,7 +32,7 @@ adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventur
 
 # Create flipped versions of the sprites
 adventRunSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventRunSprites]
-
+#Jumping Sprites
 adventJumpSprites = []
 
 adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-00.png'), (55, 42)))
@@ -40,7 +41,15 @@ adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventu
 adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-03.png'), (55, 42)))
 
 adventJumpSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventJumpSprites]
+#Crouching Sprites
 
+adventCrouchSprites = []
+adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-00.png'), (55, 42)))
+adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-01.png'), (55, 42)))
+adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-02.png'), (55, 42)))
+adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-03.png'), (55, 42)))
+
+adventCrouchSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventCrouchSprites]
 
 isJump = False
 jumpCount = 5
@@ -51,7 +60,7 @@ walkCount = 0
 ##where the animation and player movement can be modified
 
 def redrawGameWindow():
-    global walkCount ,isJump
+    global walkCount, isJump
 
     # Blit the background image
     screen.blit(forestBg, (0, 0))
@@ -99,18 +108,6 @@ run = True
 while run:
     clock.tick(27)
 
-    # Background sprite Forest - dark
-    #screen.blit(forestBg, (0, 0))
-
-    # # Show sprite character images
-    # screen.blit(adventRun0, (0, 565))
-    # screen.blit(adventRun1, (25, 565))
-    # screen.blit(adventRun2, (50, 565))
-    # screen.blit(adventRun3, (75, 565))
-    # screen.blit(adventRun4, (100, 565))
-    # screen.blit(adventRun5, (125, 565))
-    #
-
     for event in pg.event.get():
         if event.type == pg.QUIT:
             run = False
@@ -146,8 +143,9 @@ while run:
             jumpCount = 5
             isJump = False
 
+
     redrawGameWindow()
 
 pg.quit()
 
-## pygame setup end --------------------
+pg.quit()
