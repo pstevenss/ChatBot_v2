@@ -1,5 +1,8 @@
 import pygame as pg
 from spriteSheet import SpriteSheetAnimation
+from spriteSheetEye import SpriteSheetAnimationEye
+from spriteSheetBat import SpriteSheetAnimationBat
+
 
 # pygame setup start --------------------
 pg.init()
@@ -19,8 +22,14 @@ pg.display.set_caption("Enchanted Grove")
 forestBg = pg.image.load('sprite_Images/Background.png')
 forestBg = pg.transform.scale(forestBg, (screen_width, screen_height))
 adventIdle00 = pg.image.load('sprite_Images/adventurer-idle-00.png')
+
 enemy_sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
+enemy_sprite_sheet2 = pg.image.load('sprite_Images/eyeball.png')
+enemy_sprite_sheet3 = pg.image.load('sprite_Images/32x32-bat-sprite.png')
+
 enemy_animation = SpriteSheetAnimation(enemy_sprite_sheet, 32, 32, 100)
+enemy_animation2 = SpriteSheetAnimationEye(enemy_sprite_sheet2, 32, 32, 100)
+enemy_animation3 = SpriteSheetAnimationBat(enemy_sprite_sheet3, 32, 32, 100)
 
 
 adventRunSprites = []
@@ -62,6 +71,19 @@ frame_height = 32
 frame_duration = 100
 animation = SpriteSheetAnimation(sprite_sheet, frame_width, frame_height, frame_duration)
 
+# SpriteSheetAnimationEyeDuplicate usage
+sprite_sheet2 = pg.image.load('sprite_Images/eyeball.png')
+frame_width = 32
+frame_height = 32
+frame_duration = 50  # Adjust the frame duration for smoother animation
+animation2 = SpriteSheetAnimationEye(sprite_sheet2, frame_width, frame_height, frame_duration)
+
+# SpriteSheetAnimationBat usage
+sprite_sheet3 = pg.image.load('sprite_Images/32x32-bat-sprite.png')
+frame_width = 32
+frame_height = 32
+frame_duration = 50  # Adjust the frame duration for smoother animation
+animation3 = SpriteSheetAnimationBat(sprite_sheet3, frame_width, frame_height, frame_duration)
 
 isJump = False
 jumpCount = 5
@@ -77,10 +99,20 @@ def redrawGameWindow():
     # Blit the background image
     screen.blit(forestBg, (0, 0))
 
-    # Update the enemy animation
+    # Update the enemy animation(s)
     enemy_animation.update(dt)
     enemy_current_frame = enemy_animation.get_current_frame()
     screen.blit(enemy_current_frame, (545, 565))
+
+    enemy_animation2.update(dt)
+    current_frame2 = enemy_animation2.get_current_frame()
+    screen.blit(current_frame2, (245, 565))
+
+    enemy_animation3.update(dt)
+    current_frame3 = enemy_animation3.get_current_frame()
+    screen.blit(current_frame3, (375, 565))
+
+
 
     if isJump:  # Check if player is jumping
         sprite_index = walkCount // 3
@@ -124,8 +156,13 @@ run = True
 
 while run:
     dt = clock.tick(27)  # Limit the frame rate to 60 FPS
-    animation.update(dt)
+    animation.update(dt) #---------------------------------------------
     current_frame = animation.get_current_frame()
+    animation2.update(dt)
+    current_frame = animation2.get_current_frame()
+    animation3.update(dt)
+    current_frame = animation3.get_current_frame()
+
 
     for event in pg.event.get():
         if event.type == pg.QUIT:

@@ -2,6 +2,7 @@ import re
 import long_responses as long
 from time import sleep
 import pygame as pg
+from spriteSheet import SpriteSheetAnimation
 
 def message_probability(user_message, recon_words, single_response=False, required_words=[]):
     message_certainty = 0
@@ -74,9 +75,6 @@ def runningGame():
     print("1.")
 
 # pygame setup start --------------------
-    import pygame as pg
-
-    # pygame setup start --------------------
     pg.init()
     screen_width = 928
     screen_height = 650
@@ -87,25 +85,53 @@ def runningGame():
     y = 565
     width = 40
     height = 60
-    pg.display.set_caption("Bubble Buddies")
+    pg.display.set_caption("Enchanted Grove")
 
     # Load sprite images
     forestBg = pg.image.load('sprite_Images/Background.png')
     forestBg = pg.transform.scale(forestBg, (screen_width, screen_height))
     adventIdle00 = pg.image.load('sprite_Images/adventurer-idle-00.png')
+    enemy_sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
+    enemy_animation = SpriteSheetAnimation(enemy_sprite_sheet, 32, 32, 100)
 
     adventRunSprites = []
 
-    # Load and scale the original sprites
-    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-00.png'), (55, 42)))
-    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-01.png'), (55, 42)))
-    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-02.png'), (55, 42)))
-    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-03.png'), (55, 42)))
-    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-04.png'), (55, 42)))
-    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-05.png'), (55, 42)))
+    # Load and scale sprites
+    # Running sprites
+    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-00.png'), (55, 40)))
+    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-01.png'), (55, 40)))
+    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-02.png'), (55, 40)))
+    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-03.png'), (55, 40)))
+    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-04.png'), (55, 40)))
+    adventRunSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-run-05.png'), (55, 40)))
 
     # Create flipped versions of the sprites
     adventRunSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventRunSprites]
+    # Jumping Sprites
+    adventJumpSprites = []
+
+    adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-00.png'), (55, 39)))
+    adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-01.png'), (55, 39)))
+    adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-02.png'), (55, 39)))
+    adventJumpSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-jump-03.png'), (55, 39)))
+
+    adventJumpSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventJumpSprites]
+    # Crouching Sprites
+    #
+    # adventCrouchSprites = []
+    # adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-00.png'), (55, 42)))
+    # adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-01.png'), (55, 42)))
+    # adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-02.png'), (55, 42)))
+    # adventCrouchSprites.append(pg.transform.scale(pg.image.load('sprite_Images/adventurer-crouch-03.png'), (55, 42)))
+    #
+    # adventCrouchSpritesFlipped = [pg.transform.flip(sprite, True, False) for sprite in adventCrouchSprites]
+
+    # SpriteSheetAnimation usage
+    sprite_sheet = pg.image.load('sprite_Images/eyeball.png')
+    frame_width = 32
+    frame_height = 32
+    frame_duration = 100
+    animation = SpriteSheetAnimation(sprite_sheet, frame_width, frame_height, frame_duration)
 
     isJump = False
     jumpCount = 5
@@ -113,13 +139,32 @@ def runningGame():
     right = False
     walkCount = 0
 
+    ##where the animation and player movement can be modified
+
     def redrawGameWindow():
-        global walkCount
+        global walkCount, isJump
 
         # Blit the background image
         screen.blit(forestBg, (0, 0))
 
-        if left:
+        # Update the enemy animation
+        enemy_animation.update(dt)
+        enemy_current_frame = enemy_animation.get_current_frame()
+        screen.blit(enemy_current_frame, (545, 565))
+
+        if isJump:  # Check if player is jumping
+            sprite_index = walkCount // 3
+            if sprite_index < len(adventJumpSprites):
+                if left:
+                    screen.blit(adventJumpSpritesFlipped[sprite_index], (x, y))
+                else:
+                    screen.blit(adventJumpSprites[sprite_index], (x, y))
+                walkCount += 1
+            else:
+                # Reset jump animation
+                walkCount = 0
+                isJump = False
+        elif left:
             sprite_index = walkCount // 3
             if sprite_index < len(adventRunSpritesFlipped):
                 screen.blit(adventRunSpritesFlipped[sprite_index], (x, y))
@@ -147,19 +192,9 @@ def runningGame():
     run = True
 
     while run:
-        clock.tick(27)
-
-        # Background sprite Forest - dark
-        # screen.blit(forestBg, (0, 0))
-
-        # # Show sprite character images
-        # screen.blit(adventRun0, (0, 565))
-        # screen.blit(adventRun1, (25, 565))
-        # screen.blit(adventRun2, (50, 565))
-        # screen.blit(adventRun3, (75, 565))
-        # screen.blit(adventRun4, (100, 565))
-        # screen.blit(adventRun5, (125, 565))
-        #
+        dt = clock.tick(27)  # Limit the frame rate to 60 FPS
+        animation.update(dt)
+        current_frame = animation.get_current_frame()
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
