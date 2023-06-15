@@ -1,5 +1,5 @@
 import re
-import long_responses as long
+import automatedLongRep as long
 from time import sleep
 import pygame as pg
 from spriteSheet import SpriteSheetAnimation
@@ -34,40 +34,37 @@ def check_all_messages(message):
         highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
 
     # short responses
-    response("Hello!", ['hello', 'hey'], single_response=True)
-    response("I'm doing fine, and you?", ['how', 'are', 'you'], required_words=['how'])
-    response("Have a good day! ", ['bye'], required_words=['bye'])
+    response("Hello traveler, what brings you here?\nInformation about: 'Becoming an adventurer','Enemies within', or 'Secrets of the Forest'", ['hello', 'hey'], single_response=True)
+    response(long.START_GAME, ['start', 'adventure'], required_words=['start', 'adventure'])
 
     # long responses
-    response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_TASK, ['what', 'doing'], required_words=['what', 'doing'])
-    response(long.R_STARTGAME, ['play', 'the', 'game'], required_words=['play', 'game'])
-    response(long.R_CONFIRM, ['yes', 'yea'], single_response=['yes', 'yea'])
+    response(long.INFO_FOREST, ['forest', 'secret'], required_words=['forest', 'secrets'])
+    response(long.UNLOCK_FOREST,['tell,', 'more'], required_words=['tell', 'more'])
+    response(long.BECOME_ADVENT, ['adventurer', 'become'], required_words=['becoming', 'adventurer'])
+    response(long.ENEMY_INFO, ['enemy', 'enemies'], single_response=True)
 
     best_match = max(highest_prob_list, key=highest_prob_list.get)
 
     if highest_prob_list[best_match] >= 50:
-        if best_match == long.R_CONFIRM:
+        if best_match == long.START_GAME:
             runningGame()
-            return long.R_CONFIRM
+            return long.START_GAME
         else:
             return best_match
     else:
-        return long.unknown()
+        return long.unknownRandomRep()
 
 def get_response(user_input):
     split_message = re.split(r'\s+|[,;?!.-]\s*', user_input.lower())
     response = check_all_messages(split_message)
-    if response == long.R_CONFIRM:
+    if response == long.START_GAME:
         return '', True
     else:
         return response, False
 
 def runningGame():
-    print(long.R_CONFIRM)
+    print("Brace thyself, for the game begins now!")
     sleep(2)
-    print("Opening game in..")
-    sleep(3)
     print("3...")
     sleep(2)
     print("2..")
@@ -240,6 +237,6 @@ def runningGame():
 
 while True:
     user_input, game_started = get_response(input('You: '))
-    print('Bot: ' + user_input)
+    print(user_input + "\n")
     if game_started:
         break
