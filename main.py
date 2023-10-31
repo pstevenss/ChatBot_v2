@@ -2,7 +2,7 @@ import re
 import automatedLongRep as long
 from time import sleep
 import pygame as pg
-from spriteSheet import SpriteSheetAnimation
+from enemyTesting.spriteSheet import SpriteSheetAnimation
 
 def message_probability(user_message, recon_words, single_response=False, required_words=[]):
     message_certainty = 0

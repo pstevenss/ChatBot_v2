@@ -2,8 +2,8 @@ import pygame as pg
 pg.init()
 clock = pg.time.Clock()
 fps = 60
-font = pg.font.Font('fonts/Romulus.ttf', 52) #choosing text pack and the font size
-font2 = pg.font.Font('fonts/Alagard.ttf', 35)
+font = pg.font.Font('../fonts/Romulus.ttf', 52) #choosing text pack and the font size
+font2 = pg.font.Font('../fonts/Alagard.ttf', 35)
 # add multiple font packs and call it in while loop
 screen = pg.display.set_mode([800,500])
 

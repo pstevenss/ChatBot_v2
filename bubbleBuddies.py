@@ -1,7 +1,9 @@
 import pygame as pg
-from spriteSheet import SpriteSheetAnimation
-from spriteSheetEye import SpriteSheetAnimationEye
-from spriteSheetBat import SpriteSheetAnimationBat
+from enemyTesting.spriteSheet import SpriteSheetAnimation
+from enemyTesting.spriteSheetEye import SpriteSheetAnimationEye
+from enemyTesting.spriteSheetBat import SpriteSheetAnimationBat
+
+
 
 # pygame setup start --------------------
 pg.init()
@@ -113,10 +115,15 @@ def redrawGameWindow():
 
     # Blit the background image
     screen.blit(forestBg, (0, 0))
-    titletext = font.render('Enchanted Grove:', False, 'gray')
-    subText = font.render('secrets of the forgotten realm', False, 'gray')
+    titletext = font.render('Enchanted Grove:', False, '#001D00')
+    #titleTextShadow = font.render('Enchanted Grove:', False, 'grey')
+    subText = font.render('secrets of the forgotten realm', False, '#001D00')
+    #subTextShadow = font.render('secrets of the forgotten realm', False, 'grey')
     screen.blit(titletext, (300,40))
     screen.blit(subText, (207,85))
+    #screen.blit(titleTextShadow, (300, 30))
+    #screen.blit(subTextShadow, (207,85))
+
 
     # Update the enemy animation(s)
     enemy_animation.update(dt)
